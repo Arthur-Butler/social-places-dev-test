@@ -1,6 +1,6 @@
 doctrine:
     dbal:
-        url: 'mysql://%env(MYSQL_USER)%:%env(MYSQL_PASSWORD)%@%env(MYSQL_HOST)%:%env(MYSQL_PORT)%/%env(MYSQL_DATABASE)%'
+        url: '%env(resolve:DATABASE_URL)%'
         server_version: 8.0.27
         profiling_collect_backtrace: true
     orm:
