@@ -3,7 +3,7 @@
         <div class="welcome-column d-flex align-center">
             <div class="welcome-message">
                 <h1>Welcome</h1>
-                <h2>Let the developer test journey begin!</h2>
+                <h2>Contact a store today!</h2>
             </div>
         </div>
 
@@ -22,35 +22,63 @@
                     </div>
                 </div>
 
-                <v-card id="loginSection" class="login-block px-5 py-3 mt-4">
+                <v-card id="contactSection" class="contact-block px-5 py-3 mt-4">
                     <v-card-text>
-                        <v-form v-model="loginForm" ref="loginForm">
+                        <v-form v-model="contactForm" ref="contactForm">
                             <v-text-field
-                                v-model="user.username"
+                                v-model="contact.name"
                                 :disabled="loading"
-                                :error-messages="logInError"
+                                :error-messages="contactError"
                                 :rules="[isRequired]"
-                                label="Email Address"
+                                label="First Name"
                                 validate-on-blur
-                                ref="usernameInput"
-                                @input="logInError = null"
-                                @keydown.enter="logIn"/>
+                                ref="nameInput"
+                                @input="contactError = null"
+                                @keydown.enter="addContact"/>
                             <v-text-field
-                                v-model="user.password"
+                                v-model="contact.surname"
                                 :disabled="loading"
-                                :error-messages="logInError"
+                                :error-messages="contactError"
                                 :rules="[isRequired]"
-                                label="Password"
-                                type="password"
+                                label="Last Name"
                                 validate-on-blur
-                                ref="passwordInput"
-                                @input="logInError = null"
-                                @keydown.enter="logIn"/>
+                                ref="surnameInput"
+                                @input="contactError = null"
+                                @keydown.enter="addContact"/>
+                            <v-text-field
+                                v-model="contact.phoneNo"
+                                :disabled="loading"
+                                :error-messages="contactError"
+                                :rules="[isRequired]"
+                                label="Phone Number"
+                                validate-on-blur
+                                ref="phoneNoInput"
+                                @input="contactError = null"
+                                @keydown.enter="addContact"/>
+                            <v-text-field
+                                v-model="contact.email"
+                                :disabled="loading"
+                                :error-messages="contactError"
+                                :rules="[isRequired]"
+                                label="Email"
+                                validate-on-blur
+                                ref="emailInput"
+                                @input="contactError = null"
+                                @keydown.enter="addContact"/>
+                            <v-text-field
+                                v-model="contact.store"
+                                :disabled="loading"
+                                :error-messages="contactError"
+                                :rules="[isRequired]"
+                                label="Store"
+                                validate-on-blur
+                                ref="storeInput"
+                                @input="contactError = null"
+                                @keydown.enter="addContact"/>
                         </v-form>
                     </v-card-text>
-                    <div class="d-flex justify-content-between">
-                        <router-link to="/contactForm"><v-btn :loading="loading" color="primary" text>Contact Store</v-btn></router-link>
-                        <v-btn :loading="loading" color="primary" text @click="logIn">Log In</v-btn>
+                    <div class="d-flex justify-end">
+                        <v-btn :loading="loading" color="primary" text @click="addContact">Log In</v-btn>
                     </div>
                 </v-card>
             </div>
@@ -63,33 +91,36 @@ import {validationRulesMixin} from "~/mixins/validation-rules-mixin";
 import httpClient from "~/classes/httpClient";
 
 export default {
-    name: "LoginIndex",
+    name: "ContactEntry",
     mixins: [validationRulesMixin],
     data() {
         return {
-            user: {
-                username: this.$refs.usernameInput.value ?? "",
-                password: this.$refs.passwordInput.value ?? "",
+            contact: {
+                name:this.$refs.nameInput.value ?? "",
+                surname:this.$refs.surnameInput.value ?? "",
+                phoneNo: this.$refs.phoneNoInput.value ?? "",
+                email: this.$refs.emailInput.value ?? "",
+                store: this.$refs.storeInput ?? "",
             },
-            loginForm: true,
+            contactForm: true,
             loading: false,
-            logInError: null
+            contactError: null
         }
     },
     methods: {
-        async logIn() {
-            console.log(this.user);
+        async addContact() {
+            console.log(this.contact);
             this.loading = true;
-            if (!this.$refs.loginForm.validate()) {
+            if (!this.$refs.contactForm.validate()) {
                 this.loading = false;
                 return;
             }
             try {
-                // The way Symfony is handling the internals of the api/login route we can't use FormData
-                await httpClient.axiosClient.post('api/login', this.user);
+                // The way Symfony is handling the internals of the api/addContact route we can't use FormData
+                await httpClient.axiosClient.get('addContact', this.contact);
                 await this.$router.push('dashboard');
             } catch (error) {
-                this.logInError = error.response.data.error;
+                this.contactError = error.response.data.error;
             } finally {
                 this.loading = false;
             }
@@ -143,7 +174,7 @@ export default {
     font-family: "Silka";
 }
 
-.login-block {
+.contact-block {
     width: 500px;
 }
 
@@ -162,16 +193,16 @@ export default {
     z-index: 3;
 }
 
-#loginSection {
+#contactSection {
     opacity: 1;
     z-index: 1;
 }
 
-#loginSection:not(.hide) {
+#contactSection:not(.hide) {
     animation: show 2s forwards;
 }
 
-#loginSection.hide {
+#contactSection.hide {
     animation: hide 120ms forwards;
 }
 

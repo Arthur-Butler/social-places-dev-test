@@ -53,3 +53,5 @@ const app = new Vue({
     render: h => h(App),
     el: '#app',
 }).$mount('#app');
+
+export default app;

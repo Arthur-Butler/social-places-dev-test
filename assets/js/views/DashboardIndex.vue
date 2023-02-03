@@ -38,6 +38,7 @@
                                             <li>The contact form should be accessible without needing to log in.</li>
                                             <li>After creation a mail should be sent to all admins informing them of the new contact added.</li>
                                         </ul>
+                                    </li>
                                     <li><b>Outcomes: </b>Tests knowledge of the Request\Response work-flow of Symfony. Additionally Vue (using Vuetify framework), observation skills, and understanding.</li>
                                 </ol>
                             </li>
@@ -61,11 +62,10 @@
         </v-row>
     </v-container>
 </template>
-
 <script>
-export default {
-    name: "DashboardIndex",
-}
+    export default {
+        name: "DashboardIndex",
+    }
 </script>
 
 <style scoped>

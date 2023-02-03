@@ -9,7 +9,6 @@
         </v-main>
     </v-app>
 </template>
-
 <script>
 import NavigationDrawer from "~/components/layout/NavigationDrawer";
 import AppBar from "~/components/layout/AppBar";
