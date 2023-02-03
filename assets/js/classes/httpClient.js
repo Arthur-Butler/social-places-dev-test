@@ -4,7 +4,7 @@ import {serverBus} from '~/app-build';
 const routes = require('~/classes/routes.json');
 
 let config = {
-    baseURL: typeof urlHostParameter === 'undefined' ? "http://localhost": urlHostParameter,
+    baseURL: typeof urlHostParameter === 'undefined' ? "http://localhost:8000/": urlHostParameter,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
         'Content-Type': 'application/json',

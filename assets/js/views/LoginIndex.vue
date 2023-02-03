@@ -32,6 +32,7 @@
                                 :rules="[isRequired]"
                                 label="Email Address"
                                 validate-on-blur
+                                ref="usernameInput"
                                 @input="logInError = null"
                                 @keydown.enter="logIn"/>
                             <v-text-field
@@ -42,6 +43,7 @@
                                 label="Password"
                                 type="password"
                                 validate-on-blur
+                                ref="passwordInput"
                                 @input="logInError = null"
                                 @keydown.enter="logIn"/>
                         </v-form>
@@ -65,8 +67,8 @@ export default {
     data() {
         return {
             user: {
-                username: '',
-                password: '',
+                username: this.$refs.usernameInput.value ?? "",
+                password: this.$refs.passwordInput.value ?? "",
             },
             loginForm: true,
             loading: false,
@@ -75,6 +77,7 @@ export default {
     },
     methods: {
         async logIn() {
+            console.log(this.user);
             this.loading = true;
             if (!this.$refs.loginForm.validate()) {
                 this.loading = false;
@@ -82,7 +85,7 @@ export default {
             }
             try {
                 // The way Symfony is handling the internals of the api/login route we can't use FormData
-                await httpClient.axiosClient.post('api/login', this.user);
+                await httpClient.axiosClient.get('api/login', this.user);
                 await this.$router.push('dashboard');
             } catch (error) {
                 this.logInError = error.response.data.error;

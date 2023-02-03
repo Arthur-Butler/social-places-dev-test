@@ -61,7 +61,6 @@ class RequestResponseListener
     private function xhrRedirectResponse(ResponseEvent $event): void {
         $request = $event->getRequest();
         $response = $event->getResponse();
-
         if ($request->getUser() === null && $response->getStatusCode() === Response::HTTP_UNAUTHORIZED) {
             $loginRoute = $this->router->generate('login');
             if ($request->isXmlHttpRequest()) {

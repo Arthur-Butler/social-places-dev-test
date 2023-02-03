@@ -1,7 +1,7 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-        server_version: 8.0.27
+        server_version: 5.7.36
         profiling_collect_backtrace: true
     orm:
         auto_generate_proxy_classes: true
