@@ -1,3 +1,20 @@
 application:
     resource: '../src/Controller/*'
     type: annotation
+
+api_login:
+    path:     /api/login
+    controller: App\Controller\Application\ApiLoginController::login
+
+api_logout:
+    path:     /api/logout
+    controller: App\Controller\Application\ApiLoginController::logout
+
+app_contact:
+    path:     /contactForm
+    controller: App\Controller\Application\ContactController::contactForm
+
+add_contact:
+    path:     /addContact/{name}/{surname}/{phoneNo}/{email}/{store}
+    controller: App\Controller\Application\ContactController::addContact
+

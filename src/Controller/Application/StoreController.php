@@ -271,7 +271,18 @@ class StoreController extends BaseVueController
         $filePath = FileUploadService::CONTENT_PATH . "/temp-uploads/$folder/$fileName";
 
         // TODO: read file and process import
+        $reader = \PHPExcel_IOFactory::createReaderForFile($filename);
 
-        return $this->json([]);
+        $wb = $reader->load($filename);
+        $ws = $wb->getSheet(0);
+        $rows = $ws->toArray();
+
+        for ($i=0; $i < count($rows); $i++) { 
+            $errors = $validator->validate($this->processRow($row));
+            $rowNo = $i+1;
+            $rowErrors->$rowNo = $errors;
+        }
+
+        return json_encode($rowErrors);
     }
 }
