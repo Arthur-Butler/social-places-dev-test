@@ -65,16 +65,12 @@
                                 ref="emailInput"
                                 @input="contactError = null"
                                 @keydown.enter="addContact"/>
-                            <v-text-field
-                                v-model="contact.store"
-                                :disabled="loading"
-                                :error-messages="contactError"
-                                :rules="[isRequired]"
-                                label="Store"
-                                validate-on-blur
-                                ref="storeInput"
-                                @input="contactError = null"
-                                @keydown.enter="addContact"/>
+                            <select v-model="contact.store"  ref="storeInput" :rules="[isRequired]">
+                                <option disabled value="">Please select a store</option>
+                                <option value="1">Store A</option>
+                                <option value="2">Store B</option>
+                                <option value="3">Store C</option>
+                            </select>
                         </v-form>
                     </v-card-text>
                     <div class="d-flex justify-end">
@@ -117,7 +113,7 @@ export default {
             }
             try {
                 // The way Symfony is handling the internals of the api/addContact route we can't use FormData
-                await httpClient.axiosClient.get('addContact', this.contact);
+                await httpClient.axiosClient.post(`addContact?name=${this.contact.name}&sname=${this.contact.surname}&phoneNo=${this.contact.phoneNo}&email=${this.contact.email}&store=${this.contact.store}`);
                 await this.$router.push('dashboard');
             } catch (error) {
                 this.contactError = error.response.data.error;

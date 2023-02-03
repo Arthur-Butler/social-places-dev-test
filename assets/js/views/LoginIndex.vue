@@ -56,8 +56,7 @@
             </div>
         </div>
     </div>
-</template>
-
+</template>\
 <script>
 import {validationRulesMixin} from "~/mixins/validation-rules-mixin";
 import httpClient from "~/classes/httpClient";

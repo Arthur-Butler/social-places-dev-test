@@ -30,7 +30,8 @@ class ApiLoginController extends AbstractController
     }
 
     #[Route('/api/logout', name: 'api_logout', methods: 'POST')]
-    public function logout(): Response {
-        return $this->json([]);
+    public function logout(Security $security): Response {
+        $response = $security->logout();
+        return $this->redirect($this->generateUrl('login'));
     }
 }
